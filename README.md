@@ -12,7 +12,7 @@ make
 ```
 
 ## Screeshots
-![Image of Yaktocat](Screenshots/Hello_EGL.png)
+![Hello EGL](Screenshots/Hello_EGL.gif)
 
 ## License
 HoneyBee is MIT licensed.

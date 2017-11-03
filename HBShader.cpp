@@ -1,4 +1,10 @@
 #include <iostream>
+// for mmap:
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #include "HBShader.hpp"
 
 HONEYBEE_BEGIN_NAMESPACE
@@ -53,6 +59,19 @@ GLuint HBShader::loadProgram(const char *vertShaderSrc, const char *fragShaderSr
     return programObject;
 }
 
+GLuint HBShader::loadProgramByPath(const char *vertShaderPath, const char *fragShaderPath) {
+    int vLen = 0;
+    int fLen = 0;
+    int vFd = 0;
+    int fFd = 0;
+    auto vertShaderSrc = mapFile(vertShaderPath, vLen, vFd);
+    auto fragShaderSrc = mapFile(fragShaderPath, fLen, fFd);
+    int result = loadProgram(vertShaderSrc, fragShaderSrc);
+    unmapFile(vFd, vertShaderSrc, vLen);
+    unmapFile(fFd, fragShaderSrc, fLen);
+    return result;
+}
+
 GLuint HBShader::loadShader(GLenum type, const char *shaderSrc) {
     // Create the shader object
     GLuint shader = glCreateShader(type);
@@ -87,6 +106,35 @@ GLuint HBShader::loadShader(GLenum type, const char *shaderSrc) {
     }
 
     return shader;
+}
+
+char *HBShader::mapFile(const char *fileName, int &length, int &fd) {
+    fd = open(fileName, O_RDONLY);
+    if (fd == -1) {
+        std::perror("Open file failed!");
+        exit(255);
+    }
+
+    // obtain file size
+    struct stat sb;
+    if (fstat(fd, &sb) == -1) {
+        std::perror("Failed to get file size!");
+        exit(255);
+    }
+
+    length = sb.st_size;
+
+    auto addr = static_cast<char *>(mmap(nullptr, length, PROT_READ, MAP_PRIVATE, fd, 0u));
+    if (addr == MAP_FAILED) {
+        std::perror("Memory map failed!");
+        exit(255);
+    }
+    return addr;
+}
+
+void HBShader::unmapFile(int fd, char *addr, size_t len) {
+    munmap(addr, len);
+    close(fd);
 }
 
 HONEYBEE_END_NAMESPACE
