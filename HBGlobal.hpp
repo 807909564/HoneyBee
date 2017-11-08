@@ -3,6 +3,7 @@
 #include <memory>
 #include <cstdlib>
 #include <functional>
+#include <iostream>
 
 #define HONEYBEE_NAME_SPACE honeybee
 #define HONEYBEE_BEGIN_NAMESPACE namespace HONEYBEE_NAME_SPACE {

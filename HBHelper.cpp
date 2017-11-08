@@ -5,11 +5,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "HBShader.hpp"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#include "HBHelper.hpp"
 
 HONEYBEE_BEGIN_NAMESPACE
 
-GLuint HBShader::loadProgram(const char *vertShaderSrc, const char *fragShaderSrc) {
+GLuint HBHelper::loadProgram(const char *vertShaderSrc, const char *fragShaderSrc) {
     // Load the vertex/fragment shaders
     GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vertShaderSrc);
     if (vertexShader == 0) return 0;
@@ -59,7 +62,7 @@ GLuint HBShader::loadProgram(const char *vertShaderSrc, const char *fragShaderSr
     return programObject;
 }
 
-GLuint HBShader::loadProgramByPath(const char *vertShaderPath, const char *fragShaderPath) {
+GLuint HBHelper::loadProgramByPath(const char *vertShaderPath, const char *fragShaderPath) {
     int vLen = 0;
     int fLen = 0;
     int vFd = 0;
@@ -72,7 +75,41 @@ GLuint HBShader::loadProgramByPath(const char *vertShaderPath, const char *fragS
     return result;
 }
 
-GLuint HBShader::loadShader(GLenum type, const char *shaderSrc) {
+GLuint HBHelper::loadTextureFromFile(const std::string &fileName) {
+    stbi_set_flip_vertically_on_load(true);
+
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    auto data = stbi_load(fileName.c_str(), &width, &height, &nrComponents, 0);
+    if (data) {
+        GLenum format;
+        if (nrComponents == 1) {
+            format = GL_RED;
+        } else if (nrComponents == 3) {
+            format = GL_RGB;
+        } else if (nrComponents == 4) {
+            format = GL_RGBA;
+        }
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    } else {
+        std::cout << "Texture failed to load at path: " << fileName << std::endl;
+    }
+    return textureID;
+}
+
+GLuint HBHelper::loadShader(GLenum type, const char *shaderSrc) {
     // Create the shader object
     GLuint shader = glCreateShader(type);
 
@@ -108,7 +145,7 @@ GLuint HBShader::loadShader(GLenum type, const char *shaderSrc) {
     return shader;
 }
 
-char *HBShader::mapFile(const char *fileName, int &length, int &fd) {
+char *HBHelper::mapFile(const char *fileName, int &length, int &fd) {
     fd = open(fileName, O_RDONLY);
     if (fd == -1) {
         std::perror("Open file failed!");
@@ -132,7 +169,7 @@ char *HBShader::mapFile(const char *fileName, int &length, int &fd) {
     return addr;
 }
 
-void HBShader::unmapFile(int fd, char *addr, size_t len) {
+void HBHelper::unmapFile(int fd, char *addr, size_t len) {
     munmap(addr, len);
     close(fd);
 }

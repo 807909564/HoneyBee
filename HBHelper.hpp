@@ -9,10 +9,11 @@
 
 HONEYBEE_BEGIN_NAMESPACE
 
-class HBShader {
+class HBHelper {
 public:
     static GLuint loadProgram(const char *vertShaderSrc, const char *fragShaderSrc);
     static GLuint loadProgramByPath(const char *vertShaderPath, const char *fragShaderPath);
+    static GLuint loadTextureFromFile(const std::string &fileName);
 private:
     static GLuint loadShader(GLenum type, const char *shaderSrc);
     static char *mapFile(const char *fileName, int &length, int &fd);
