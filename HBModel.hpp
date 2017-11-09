@@ -24,6 +24,10 @@ private:
     std::vector<HBTexture> loadMaterialTextures(aiMaterial *mat,
                                                 aiTextureType type,
                                                 const std::string &typeName);
+    glm::vec4 loadMaterialColor(aiMaterial *mat,
+                                const char* pKey,
+                                unsigned int type,
+                                unsigned int index);
 private:
     std::vector<HBMesh> mMeshes;
     std::string mModelDirectory;

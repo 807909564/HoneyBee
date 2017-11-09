@@ -76,7 +76,7 @@ GLuint HBHelper::loadProgramByPath(const char *vertShaderPath, const char *fragS
 }
 
 GLuint HBHelper::loadTextureFromFile(const std::string &fileName) {
-    stbi_set_flip_vertically_on_load(true);
+ //   stbi_set_flip_vertically_on_load(true);
 
     unsigned int textureID;
     glGenTextures(1, &textureID);

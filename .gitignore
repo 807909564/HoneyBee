@@ -9,4 +9,5 @@ compile_commands.json
 CTestTestfile.cmake
 stb_image.h
 CMakeLists.txt.user
+dna.txt
 glm/

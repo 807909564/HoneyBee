@@ -16,6 +16,7 @@ make
 
 ## Screeshots
 ![spider](Screenshots/spider.gif)
+![SimpleCar](Screenshots/SimpleCar.png)
 
 ## License
 HoneyBee is MIT licensed.

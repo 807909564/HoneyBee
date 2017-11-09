@@ -15,7 +15,7 @@ typedef struct {
 int main() {
     honeybee::HBEgl egl;
     egl.glContext()->userData = malloc(sizeof(UserData));
-    egl.createWindow("Hello EGL", 800, 700, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
+    egl.createWindow("HoneyBee", 800, 700, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
     egl.registerInitFunc([](honeybee::HBContext *context) {
         // Load the vertex/fragment shaders
         auto programObject = honeybee::HBHelper::loadProgramByPath("vertexShader.vs", "fragShader.fs");
@@ -29,15 +29,16 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(50.0f), (float)context->width / context->height, 0.1f, 400.0f);
+        projection = glm::perspective(glm::radians(60.0f), (float)context->width / context->height, 0.1f, 400.0f);
 
         glUseProgram(userData->programObject);
         glm::mat4 model;
-        model = glm::translate(model, glm::vec3(30.0f, 0.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
         glUniformMatrix4fv(glGetUniformLocation(userData->programObject, "model"), 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(glGetUniformLocation(userData->programObject, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-        auto ourModel = new honeybee::HBModel("../assimp/test/models/OBJ/spider.obj");
+       // auto ourModel = new honeybee::HBModel("../assimp/test/models/OBJ/spider.obj");
+        auto ourModel = new honeybee::HBModel("x5/x5.obj");
         userData->model = ourModel;
         glViewport (0, 0, context->width, context->height);
 
@@ -58,12 +59,13 @@ int main() {
             time += deltaTime * 2;
         }
         glm::mat4 view;
-        glm::vec3 viewPos(-275.0f + (25.0f * cos(time)), 50.0f * sin(time), 120.0f + (30.0f * cos(time)));
+        glm::vec3 viewPos(-200.0f, 50.0f, 200.0f);
         view = glm::lookAt(viewPos,
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.0f, 1.0f, 0.0f));
 
         glUniformMatrix4fv(glGetUniformLocation(userData->programObject, "view"), 1, GL_FALSE, glm::value_ptr(view));
+        glUniform3fv(glGetUniformLocation(userData->programObject, "viewPos"), 1, glm::value_ptr(viewPos));
     });
     egl.registerShutdownFunc([](honeybee::HBContext *context) {
         UserData *userData = (UserData *)(context->userData);

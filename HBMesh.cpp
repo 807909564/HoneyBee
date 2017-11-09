@@ -7,10 +7,12 @@ HONEYBEE_BEGIN_NAMESPACE
 HBMesh::HBMesh(std::vector<HBVertex> &vertices,
                std::vector<unsigned int> &indices,
                std::vector<HBTexture> &textures,
+               HBMeshColor &color,
                const std::string &name) {
     mVertices = std::move(vertices);
     mIndices = std::move(indices);
     mTextures = std::move(textures);
+    mColor = std::move(color);
     mName = std::move(name);
     setup();
 }
@@ -19,6 +21,7 @@ HBMesh::HBMesh(HBMesh &&other) {
     mVertices = std::move(other.mVertices);
     mIndices = std::move(other.mIndices);
     mTextures = std::move(other.mTextures);
+    mColor = std::move(other.mColor);
     mVaoId = std::move(other.mVaoId);
     mName = std::move(other.mName);
 }
@@ -27,6 +30,7 @@ HBMesh &HBMesh::operator=(HBMesh &&other) {
     mVertices = std::move(other.mVertices);
     mIndices = std::move(other.mIndices);
     mTextures = std::move(other.mTextures);
+    mColor = std::move(other.mColor);
     mVaoId = std::move(other.mVaoId);
     mName = std::move(other.mName);
     return *this;
@@ -47,6 +51,12 @@ void HBMesh::draw(GLuint programObject) {
         glUniform1i(glGetUniformLocation(programObject, ("material." + name + number).c_str()), i);
         glBindTexture(GL_TEXTURE_2D, mTextures[i].sId);
     }
+    glUniform4fv(glGetUniformLocation(programObject, "material.ambient"), 1, glm::value_ptr(mColor.sAmbientColor));
+    glUniform4fv(glGetUniformLocation(programObject, "material.diffuse"), 1, glm::value_ptr(mColor.sDiffuseColor));
+    glUniform4fv(glGetUniformLocation(programObject, "material.specular"), 1, glm::value_ptr(mColor.sSpecularColor));
+
+    glUniform3fv(glGetUniformLocation(programObject, "light.pos"), 1, glm::value_ptr(glm::vec3(300.0f, 300.0f, 300.0f)));
+    glUniform4fv(glGetUniformLocation(programObject, "light.color"), 1, glm::value_ptr(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
 
     glBindVertexArray(mVaoId);
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);

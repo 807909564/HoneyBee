@@ -72,6 +72,7 @@ HBMesh HBModel::processMesh(aiMesh *mesh, const aiScene *scene) {
         }
     }
 
+    HBMeshColor meshColor;
     if (mesh->mMaterialIndex >= 0) {
         auto material = scene->mMaterials[mesh->mMaterialIndex];
         auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
@@ -79,9 +80,13 @@ HBMesh HBModel::processMesh(aiMesh *mesh, const aiScene *scene) {
 
         auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
         textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+        meshColor.sAmbientColor = loadMaterialColor(material, AI_MATKEY_COLOR_AMBIENT);
+        meshColor.sDiffuseColor = loadMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE);
+        meshColor.sSpecularColor = loadMaterialColor(material, AI_MATKEY_COLOR_SPECULAR);
     }
 
-    return std::move(HBMesh(vertices, indices, textures, mesh->mName.C_Str()));
+    return std::move(HBMesh(vertices, indices, textures, meshColor, mesh->mName.C_Str()));
 }
 
 std::vector<HBTexture> HBModel::loadMaterialTextures(aiMaterial *mat,
@@ -92,12 +97,8 @@ std::vector<HBTexture> HBModel::loadMaterialTextures(aiMaterial *mat,
         aiString str;
         mat->GetTexture(type, i, &str);
 
-        //std::string aStr(str.C_Str());
-        auto fileName = std::string(str.C_Str()); //aStr.substr(aStr.find_last_of('\\') + 1, aStr.size() - 1);
-        if (fileName.substr(0, 2) == "./" || fileName.substr(0, 2) == ".\\") {
-            fileName = fileName.substr(2, fileName.size() - 2);
-        }
-
+        std::string aStr(str.C_Str());
+        auto fileName = aStr.substr(aStr.find_last_of('/') + 1, aStr.size());
         auto result = std::find_if(mLoadedTextures.begin(),
                                    mLoadedTextures.end(),
                                    [str](const HBTexture &texture) -> bool {
@@ -107,6 +108,7 @@ std::vector<HBTexture> HBModel::loadMaterialTextures(aiMaterial *mat,
             textures.push_back(*result);
         } else {
             HBTexture texture;
+            std::cout << mModelDirectory + '/' + fileName << std::endl;
             texture.sId = HBHelper::loadTextureFromFile(mModelDirectory + '/' + fileName);
             texture.sType = typeName;
             texture.sPath = str;
@@ -116,6 +118,16 @@ std::vector<HBTexture> HBModel::loadMaterialTextures(aiMaterial *mat,
     }
 
     return textures;
+}
+
+glm::vec4 HBModel::loadMaterialColor(aiMaterial *mat,
+                                     const char* pKey,
+                                     unsigned int type,
+                                     unsigned int index) {
+    aiColor4D color;
+    if (AI_SUCCESS == aiGetMaterialColor(mat, pKey, type, index, &color)) {
+        return glm::vec4(color.r, color.g, color.b, color.a);
+    }
 }
 
 HONEYBEE_END_NAMESPACE

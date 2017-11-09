@@ -28,11 +28,18 @@ struct HBTexture {
     aiString sPath;
 };
 
+struct HBMeshColor {
+    glm::vec4 sAmbientColor;
+    glm::vec4 sDiffuseColor;
+    glm::vec4 sSpecularColor;
+};
+
 class HBMesh {
 public:
     HBMesh(std::vector<HBVertex> &vertices,
            std::vector<unsigned int> &indices,
            std::vector<HBTexture> &textures,
+           HBMeshColor &color,
            const std::string &name);
 
     HBMesh(HBMesh &&other);
@@ -47,6 +54,7 @@ private:
     std::vector<HBVertex> mVertices;
     std::vector<unsigned int> mIndices;
     std::vector<HBTexture> mTextures;
+    HBMeshColor mColor;
     std::string mName;
     unsigned int mVaoId{0};
     unsigned int mVboId{0};
