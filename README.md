@@ -3,6 +3,9 @@ HoneyBee is a 3D engine project for Automotive applications on Imx6 platforms.
 
 Currently it is at the very beginning, but it aims to be developed into a full render engine for Car models and 3D instrument clusters, with extremely high performance and adequate flexibilities.
 
+## Model
+We are using Assimp to load 3D models for now, but in the long run, we'll remove Assimp from our code, instead support only .obj loading manually.
+
 ## Build
 Cmake is used as the automake tool. So it is pretty easy to build the project.
 
