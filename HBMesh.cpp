@@ -5,11 +5,13 @@
 HONEYBEE_BEGIN_NAMESPACE
 
 HBMesh::HBMesh(std::vector<HBVertex> &vertices,
-           std::vector<unsigned int> &indices,
-           std::vector<HBTexture> &textures) {
+               std::vector<unsigned int> &indices,
+               std::vector<HBTexture> &textures,
+               const std::string &name) {
     mVertices = std::move(vertices);
     mIndices = std::move(indices);
     mTextures = std::move(textures);
+    mName = std::move(name);
     setup();
 }
 
@@ -18,6 +20,7 @@ HBMesh::HBMesh(HBMesh &&other) {
     mIndices = std::move(other.mIndices);
     mTextures = std::move(other.mTextures);
     mVaoId = std::move(other.mVaoId);
+    mName = std::move(other.mName);
 }
 
 HBMesh &HBMesh::operator=(HBMesh &&other) {
@@ -25,27 +28,26 @@ HBMesh &HBMesh::operator=(HBMesh &&other) {
     mIndices = std::move(other.mIndices);
     mTextures = std::move(other.mTextures);
     mVaoId = std::move(other.mVaoId);
+    mName = std::move(other.mName);
     return *this;
 }
 
 void HBMesh::draw(GLuint programObject) {
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
-    for(unsigned int i = 0; i < mTextures.size(); ++i) {
+    for (auto i = 0; i < mTextures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
         std::string number;
         std::string name = mTextures[i].sType;
-        if(name == "texture_diffuse")
+        if (name == "texture_diffuse") {
             number = std::to_string(diffuseNr++);
-        else if(name == "texture_specular")
+        } else if(name == "texture_specular") {
             number = std::to_string(specularNr++);
-
+        }
         glUniform1i(glGetUniformLocation(programObject, ("material." + name + number).c_str()), i);
         glBindTexture(GL_TEXTURE_2D, mTextures[i].sId);
     }
-    glActiveTexture(GL_TEXTURE0);
 
-    // draw mesh
     glBindVertexArray(mVaoId);
     glDrawElements(GL_TRIANGLES, mIndices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

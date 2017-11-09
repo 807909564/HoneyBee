@@ -81,7 +81,7 @@ HBMesh HBModel::processMesh(aiMesh *mesh, const aiScene *scene) {
         textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
     }
 
-    return std::move(HBMesh(vertices, indices, textures));
+    return std::move(HBMesh(vertices, indices, textures, mesh->mName.C_Str()));
 }
 
 std::vector<HBTexture> HBModel::loadMaterialTextures(aiMaterial *mat,
