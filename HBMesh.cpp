@@ -17,25 +17,6 @@ HBMesh::HBMesh(std::vector<HBVertex> &vertices,
     setup();
 }
 
-HBMesh::HBMesh(HBMesh &&other) {
-    mVertices = std::move(other.mVertices);
-    mIndices = std::move(other.mIndices);
-    mTextures = std::move(other.mTextures);
-    mColor = std::move(other.mColor);
-    mVaoId = std::move(other.mVaoId);
-    mName = std::move(other.mName);
-}
-
-HBMesh &HBMesh::operator=(HBMesh &&other) {
-    mVertices = std::move(other.mVertices);
-    mIndices = std::move(other.mIndices);
-    mTextures = std::move(other.mTextures);
-    mColor = std::move(other.mColor);
-    mVaoId = std::move(other.mVaoId);
-    mName = std::move(other.mName);
-    return *this;
-}
-
 void HBMesh::draw(GLuint programObject) {
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;

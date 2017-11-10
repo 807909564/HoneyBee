@@ -42,9 +42,6 @@ public:
            HBMeshColor &color,
            const std::string &name);
 
-    HBMesh(HBMesh &&other);
-    HBMesh &operator=(HBMesh &&other);
-
     void draw(GLuint programObject);
 
 private:

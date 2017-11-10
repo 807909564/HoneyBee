@@ -86,7 +86,7 @@ HBMesh HBModel::processMesh(aiMesh *mesh, const aiScene *scene) {
         meshColor.sSpecularColor = loadMaterialColor(material, AI_MATKEY_COLOR_SPECULAR);
     }
 
-    return std::move(HBMesh(vertices, indices, textures, meshColor, mesh->mName.C_Str()));
+    return HBMesh(vertices, indices, textures, meshColor, mesh->mName.C_Str());
 }
 
 std::vector<HBTexture> HBModel::loadMaterialTextures(aiMaterial *mat,
