@@ -60,7 +60,7 @@ int main() {
             time += deltaTime * 2;
         }
         glm::mat4 view;
-        glm::vec3 viewPos(-200.0f, 200.0f, 200.0f);
+        glm::vec3 viewPos(-200.0f * sin(time), 200.0f, 200.0f * cos(time));
         view = glm::lookAt(viewPos,
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.0f, 1.0f, 0.0f));
