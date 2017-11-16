@@ -18,8 +18,8 @@ HBMesh::HBMesh(std::vector<HBVertex> &vertices,
 }
 
 void HBMesh::draw(GLuint programObject) {
-    unsigned int diffuseNr = 1;
-    unsigned int specularNr = 1;
+    unsigned int diffuseNr{1};
+    unsigned int specularNr{1};
     for (auto i = 0; i < mTextures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
         std::string number;

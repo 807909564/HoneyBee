@@ -48,7 +48,7 @@ public:
 private:
     EGLint getContextRenderableType(EGLDisplay eglDisplay);
 private:
-    HBContext *mContext = nullptr;
+    HBContext *mContext{nullptr};
     std::unique_ptr<EglAdapter> mEglAdapter;
     std::function<bool(HBContext *)> mInitFunc;
 };
