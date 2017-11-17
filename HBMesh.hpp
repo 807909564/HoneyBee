@@ -36,11 +36,11 @@ struct HBMeshColor {
 
 class HBMesh {
 public:
-    HBMesh(std::vector<HBVertex> &vertices,
-           std::vector<unsigned int> &indices,
-           std::vector<HBTexture> &textures,
-           HBMeshColor &color,
-           const std::string &name);
+    explicit HBMesh(std::vector<HBVertex> &vertices,
+                    std::vector<unsigned int> &indices,
+                    std::vector<HBTexture> &textures,
+                    HBMeshColor &color,
+                    const std::string &name);
 
     void draw(GLuint programObject);
 

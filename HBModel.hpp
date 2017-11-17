@@ -15,7 +15,7 @@ HONEYBEE_BEGIN_NAMESPACE
 
 class HBModel {
 public:
-    HBModel(const std::string &path);
+    explicit HBModel(const std::string &path);
     void draw(GLuint programObject);
 private:
     void loadModel(const std::string &path);

@@ -34,7 +34,7 @@ typedef struct {
 
 class HBEgl {
 public:
-    HBEgl();
+    explicit HBEgl();
     virtual ~HBEgl();
     HBContext *glContext() const;
     GLboolean createWindow(const char *title, GLint width, GLint height, GLuint flags);
