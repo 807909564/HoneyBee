@@ -31,7 +31,7 @@ public:
 private:
     GLboolean userInterrupt();
 private:
-    HBContext *mContext;
+    HBContext *mContext{nullptr};
 };
 
 HONEYBEE_END_NAMESPACE
