@@ -67,20 +67,14 @@ HBText::HBText(int fontSize, const HBContext *context) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    GLuint tex{0};
     glGenVertexArrays(1, &mVaoId);
     glGenBuffers(1, &mVboId);
     glBindVertexArray(mVaoId);
-    glGenTextures(1, &tex);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, tex);
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, mVboId);
     glBindVertexArray(0);
 
     glUseProgram(mProgramObject);
-    glUniform1i(glGetUniformLocation(mProgramObject, "tex"), 0);
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(context->width), 0.0f, static_cast<float>(context->height));
     glUniformMatrix4fv(glGetUniformLocation(mProgramObject, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 }
