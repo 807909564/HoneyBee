@@ -93,6 +93,8 @@ HBText::HBText(int fontSize, const HBContext *context) {
 }
 
 void HBText::draw() {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     glUseProgram(mProgramObject);
@@ -125,6 +127,7 @@ void HBText::draw() {
 
         x += (ch.Advance >> 6) * mScale;
     }
+    glDisable(GL_BLEND);
 }
 
 void HBText::setText(const std::string &text) {
