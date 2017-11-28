@@ -41,7 +41,10 @@ int main() {
     });
     egl.registerUpdateFunc([] (honeybee::HBContext *context, float deltaTime) {
         UserData *userData = (UserData *)(context->userData);
-        userData->model->update(deltaTime);
+        if (userData->model) userData->model->update(deltaTime);
+        if (userData->text) {
+            userData->text->setText("FPS:" + std::to_string(std::lround(1.0 / deltaTime)));
+        }
     });
     egl.registerShutdownFunc([](honeybee::HBContext *context) {
         UserData *userData = (UserData *)(context->userData);

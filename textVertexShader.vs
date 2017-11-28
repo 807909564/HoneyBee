@@ -6,6 +6,6 @@ out vec2 texcoord;
 uniform mat4 projection;
 
 void main(void) {
-    gl_Position = vec4(coord.xy, 0.0, 1.0);
+    gl_Position = projection * vec4(coord.xy, 0.0, 1.0);
     texcoord = coord.zw;
 }
