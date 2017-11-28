@@ -10,13 +10,15 @@
 #include "glm/gtc/type_ptr.hpp"
 
 #include "HBMesh.hpp"
+#include "HBContext.hpp"
 
 HONEYBEE_BEGIN_NAMESPACE
 
 class HBModel {
 public:
-    explicit HBModel(const std::string &path);
-    void draw(GLuint programObject);
+    explicit HBModel(const std::string &path, const HBContext *context);
+    void draw();
+    void update(float deltaTime);
 private:
     void loadModel(const std::string &path);
     void processNode(aiNode *node, const aiScene *scene);
@@ -29,6 +31,7 @@ private:
                                 unsigned int type,
                                 unsigned int index);
 private:
+    GLuint mProgramObject{0};
     std::vector<HBMesh> mMeshes;
     std::string mModelDirectory;
     std::vector<HBTexture> mLoadedTextures;

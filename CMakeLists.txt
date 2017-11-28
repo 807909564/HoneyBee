@@ -7,6 +7,9 @@ INCLUDE_DIRECTORIES(X11)
 INCLUDE_DIRECTORIES(../assimp/include)
 LINK_DIRECTORIES(../assimp/lib)
 
+INCLUDE_DIRECTORIES(../freetype/include)
+LINK_DIRECTORIES(../freetype/lib)
+
 file(GLOB SOURCES
         ./Main.cpp
         ./HBGlobal.hpp
@@ -19,6 +22,8 @@ file(GLOB SOURCES
         ./HBMesh.cpp
         ./HBModel.hpp
         ./HBModel.cpp
+        ./HBText.hpp
+        ./HBText.cpp
         ./X11/EglAdapter.hpp
         ./X11/EglAdapter.cpp
 #        ./Imx6/EglAdapter.hpp
@@ -34,4 +39,4 @@ find_package(X11)
 find_library(OPENGLES3_LIBRARY GLESv2 "OpenGL ES v3.0 library")
 find_library(EGL_LIBRARY EGL "EGL 1.4 library" )
 
-target_link_libraries(${PROJECT_NAME} ${OPENGLES3_LIBRARY} ${EGL_LIBRARY} ${X11_LIBRARIES} assimp)
+target_link_libraries(${PROJECT_NAME} ${OPENGLES3_LIBRARY} ${EGL_LIBRARY} ${X11_LIBRARIES} assimp freetype png)
