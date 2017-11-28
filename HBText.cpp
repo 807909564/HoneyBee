@@ -25,8 +25,7 @@ HBText::HBText(int fontSize, const HBContext *context) {
     FT_Set_Pixel_Sizes(face, 0, fontSize);
     for (GLubyte c = 0; c < 128; c++) {
         // Load character glyph
-        if (FT_Load_Char(face, c, FT_LOAD_RENDER))
-        {
+        if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
             std::cout << "ERROR::FREETYTPE: Failed to load Glyph" << std::endl;
             continue;
         }
@@ -68,20 +67,14 @@ HBText::HBText(int fontSize, const HBContext *context) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    GLuint tex{0}, sampler{0};
+    GLuint tex{0};
     glGenVertexArrays(1, &mVaoId);
     glGenBuffers(1, &mVboId);
     glBindVertexArray(mVaoId);
     glGenTextures(1, &tex);
-    glGenSamplers(1, &sampler);
-    glSamplerParameteri(sampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glSamplerParameteri(sampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glSamplerParameteri(sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glSamplerParameteri(sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, tex);
-    glBindSampler(0, sampler);
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, mVboId);
     glBindVertexArray(0);
