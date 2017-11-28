@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.1)
 
 project(HoneyBee)
 
-INCLUDE_DIRECTORIES(X11)
-#INCLUDE_DIRECTORIES(Imx6)
+INCLUDE_DIRECTORIES(Platform/X11)
+#INCLUDE_DIRECTORIES(Platform/Imx6)
 INCLUDE_DIRECTORIES(../assimp/include)
 LINK_DIRECTORIES(../assimp/lib)
 
@@ -24,10 +24,10 @@ file(GLOB SOURCES
         ./HBModel.cpp
         ./HBText.hpp
         ./HBText.cpp
-        ./X11/EglAdapter.hpp
-        ./X11/EglAdapter.cpp
-#        ./Imx6/EglAdapter.hpp
-#        ./Imx6/EglAdapter.cpp
+        ./Platform/X11/EglAdapter.hpp
+        ./Platform/X11/EglAdapter.cpp
+#        ./Platform/Imx6/EglAdapter.hpp
+#        ./Platform/Imx6/EglAdapter.cpp
     )
 add_executable(${PROJECT_NAME} ${SOURCES})
 

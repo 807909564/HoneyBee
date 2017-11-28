@@ -1,8 +1,8 @@
 #include <iostream>
 #include "HBEgl.hpp"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "ThirdParty/glm/glm.hpp"
+#include "ThirdParty/glm/gtc/matrix_transform.hpp"
+#include "ThirdParty/glm/gtc/type_ptr.hpp"
 #include "HBHelper.hpp"
 #include "HBModel.hpp"
 #include "HBText.hpp"
@@ -23,7 +23,7 @@ int main() {
         glViewport (0, 0, context->width, context->height);
 
         UserData *userData = (UserData *)(context->userData);
-        userData->model = new honeybee::HBModel("x5/x5.obj", context);
+        userData->model = new honeybee::HBModel("Model/x5/x5.obj", context);
         userData->text = new honeybee::HBText(24, context);
         userData->text->setPosition(10, 670);
         userData->text->setColor(glm::vec4(1.0, 0.0, 0.0, 0.8));

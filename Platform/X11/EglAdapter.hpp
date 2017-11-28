@@ -13,8 +13,8 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
-#include "../HBGlobal.hpp"
-#include "../HBContext.hpp"
+#include "../../HBGlobal.hpp"
+#include "../../HBContext.hpp"
 
 HONEYBEE_BEGIN_NAMESPACE
 

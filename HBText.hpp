@@ -2,9 +2,9 @@
 
 #include <map>
 #include <GLES3/gl3.h>
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "ThirdParty/glm/glm.hpp"
+#include "ThirdParty/glm/gtc/matrix_transform.hpp"
+#include "ThirdParty/glm/gtc/type_ptr.hpp"
 #include "HBGlobal.hpp"
 #include "ft2build.h"
 #include FT_FREETYPE_H
