@@ -9,7 +9,7 @@
 
 HONEYBEE_BEGIN_NAMESPACE
 
-class HBHelper {
+class HBHelper final {
 public:
     static GLuint loadProgram(const char *vertShaderSrc, const char *fragShaderSrc);
     static GLuint loadProgramByPath(const char *vertShaderPath, const char *fragShaderPath);

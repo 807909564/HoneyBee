@@ -22,7 +22,7 @@ HONEYBEE_BEGIN_NAMESPACE
 static Display *x_display = nullptr;
 static Atom s_wmDeleteMessage;
 
-class EglAdapter {
+class EglAdapter final {
 public:
     EglAdapter(HBContext *context);
     EGLBoolean createWindow(const char *title);

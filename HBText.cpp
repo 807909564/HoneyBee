@@ -1,10 +1,11 @@
 #include "HBText.hpp"
 #include "HBHelper.hpp"
 #include "freetype/ftmodapi.h"
+#include "HBContext.hpp"
 
 HONEYBEE_BEGIN_NAMESPACE
 
-HBText::HBText() {
+HBText::HBText(int fontSize, const HBContext *context) {
     mProgramObject = honeybee::HBHelper::loadProgramByPath("textVertexShader.vs", "textFragShader.fs");
 
     FT_Library ft;
@@ -20,8 +21,8 @@ HBText::HBText() {
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // Disable byte-alignment restriction
-    FT_Set_Pixel_Sizes(face, 0, 24);
 
+    FT_Set_Pixel_Sizes(face, 0, fontSize);
     for (GLubyte c = 0; c < 128; c++) {
         // Load character glyph
         if (FT_Load_Char(face, c, FT_LOAD_RENDER))
@@ -87,17 +88,15 @@ HBText::HBText() {
 
     glUseProgram(mProgramObject);
     glUniform1i(glGetUniformLocation(mProgramObject, "tex"), 0);
-    glUniform4fv(glGetUniformLocation(mProgramObject, "color"), 1, glm::value_ptr(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 700.0f);
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(context->width), 0.0f, static_cast<float>(context->height));
     glUniformMatrix4fv(glGetUniformLocation(mProgramObject, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 }
-
-HBText::~HBText() {}
 
 void HBText::draw() {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     glUseProgram(mProgramObject);
+    glUniform4fv(glGetUniformLocation(mProgramObject, "color"), 1, glm::value_ptr(mColor));
     glBindVertexArray(mVaoId);
 
     auto x = mX;
@@ -130,6 +129,15 @@ void HBText::draw() {
 
 void HBText::setText(const std::string &text) {
     mText = text;
+}
+
+void HBText::setPosition(const float &x, const float &y) {
+    mX = x;
+    mY = y;
+}
+
+void HBText::setColor(const glm::vec4 &color) {
+    mColor = std::move(color);
 }
 
 HONEYBEE_END_NAMESPACE

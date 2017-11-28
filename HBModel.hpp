@@ -14,7 +14,7 @@
 
 HONEYBEE_BEGIN_NAMESPACE
 
-class HBModel {
+class HBModel final {
 public:
     explicit HBModel(const std::string &path, const HBContext *context);
     void draw();

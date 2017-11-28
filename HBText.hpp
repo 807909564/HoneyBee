@@ -11,21 +11,25 @@
 
 HONEYBEE_BEGIN_NAMESPACE
 
-class HBText {
+class HBContext;
+
+class HBText final {
 public:
-    explicit HBText();
-    ~HBText();
+    explicit HBText(int fontSize, const HBContext *context);
     void draw();
 
     void setText(const std::string &text);
+    void setPosition(const float &x, const float &y);
+    void setColor(const glm::vec4 &color);
 
 private:
     GLuint mProgramObject{0};
     GLuint mVboId{0};
     GLuint mVaoId{0};
-    float mX{10.0};
-    float mY{670.0};
+    float mX{0.0};
+    float mY{0.0};
     float mScale{1.0};
+    glm::vec4 mColor{glm::vec4(1.0, 1.0, 1.0, 1.0)};
 
     struct Character {
         GLuint     TextureID;  // ID handle of the glyph texture

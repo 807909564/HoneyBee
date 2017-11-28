@@ -34,7 +34,7 @@ struct HBMeshColor {
     glm::vec4 sSpecularColor;
 };
 
-class HBMesh {
+class HBMesh final {
 public:
     explicit HBMesh(std::vector<HBVertex> &vertices,
                     std::vector<unsigned int> &indices,

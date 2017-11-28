@@ -27,7 +27,9 @@ int main() {
 
         UserData *userData = (UserData *)(context->userData);
         userData->model = new honeybee::HBModel("x5/x5.obj", context);
-        userData->text = new honeybee::HBText();
+        userData->text = new honeybee::HBText(24, context);
+        userData->text->setPosition(10, 670);
+        userData->text->setColor(glm::vec4(1.0, 0.0, 0.0, 0.8));
 
         return true;
     });

@@ -32,10 +32,10 @@ typedef struct {
 
 #pragma pack(pop,x1)
 
-class HBEgl {
+class HBEgl final {
 public:
     explicit HBEgl();
-    virtual ~HBEgl();
+    ~HBEgl();
     HBContext *glContext() const;
     GLboolean createWindow(const char *title, GLint width, GLint height, GLuint flags);
     void registerDrawFunc(std::function<void(HBContext *)> drawCallback);
