@@ -9,6 +9,7 @@ We are using Assimp to load 3D models for now, but in the long run, we'll remove
 ## Build
 Cmake is used as the automake tool. So it is pretty easy to build the project.
 
+Install assimp and freetype, then just do as follows.
 ```
 cmake .
 make
