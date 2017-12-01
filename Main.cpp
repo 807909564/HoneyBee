@@ -22,7 +22,7 @@ int main() {
 
         glViewport (0, 0, context->width, context->height);
 
-        UserData *userData = static_cast<UserData *>(context->userData);
+        auto userData = static_cast<UserData *>(context->userData);
         userData->model = new honeybee::HBModel("Model/x5/x5.obj", context);
         userData->text = new honeybee::HBText(24, context);
         userData->text->setPosition(10, 670);

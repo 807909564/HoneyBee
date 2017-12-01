@@ -34,8 +34,7 @@ GLboolean HBEgl::createWindow(const char *title, GLint width, GLint height, GLui
     EGLint minorVersion;
     if (!eglInitialize(mContext->eglDisplay, &majorVersion, &minorVersion)) return GL_FALSE;
 
-    EGLint attribList[] =
-    {
+    EGLint attribList[] = {
         EGL_RED_SIZE,       5,
         EGL_GREEN_SIZE,     6,
         EGL_BLUE_SIZE,      5,

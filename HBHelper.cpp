@@ -14,17 +14,17 @@ HONEYBEE_BEGIN_NAMESPACE
 
 GLuint HBHelper::loadProgram(const char *vertShaderSrc, const char *fragShaderSrc) {
     // Load the vertex/fragment shaders
-    GLuint vertexShader = loadShader(GL_VERTEX_SHADER, vertShaderSrc);
+    auto vertexShader = loadShader(GL_VERTEX_SHADER, vertShaderSrc);
     if (vertexShader == 0) return 0;
 
-    GLuint fragmentShader = loadShader(GL_FRAGMENT_SHADER, fragShaderSrc);
+    auto fragmentShader = loadShader(GL_FRAGMENT_SHADER, fragShaderSrc);
     if (fragmentShader == 0) {
-        glDeleteShader ( vertexShader );
+        glDeleteShader(vertexShader);
         return 0;
     }
 
     // Create the program object
-    GLuint programObject = glCreateProgram();
+    auto programObject = glCreateProgram();
     if (programObject == 0) return 0;
 
     glAttachShader(programObject, vertexShader);
@@ -34,16 +34,16 @@ GLuint HBHelper::loadProgram(const char *vertShaderSrc, const char *fragShaderSr
     glLinkProgram(programObject);
 
     // Check the link status
-    GLint linked = 0;
+    auto linked = static_cast<GLint>(0);
     glGetProgramiv(programObject, GL_LINK_STATUS, &linked);
 
     if (!linked) {
-        GLint infoLen = 0;
+        auto infoLen = static_cast<GLint>(0);
 
-        glGetProgramiv ( programObject, GL_INFO_LOG_LENGTH, &infoLen );
+        glGetProgramiv(programObject, GL_INFO_LOG_LENGTH, &infoLen);
 
         if (infoLen > 1) {
-            auto infoLog = (char *)malloc(sizeof(char) * infoLen);
+            auto infoLog = static_cast<char *>(malloc(sizeof(char) * infoLen));
 
             glGetProgramInfoLog(programObject, infoLen, nullptr, infoLog);
             std::cout << "Error linking program: " << infoLog << std::endl;
@@ -63,10 +63,10 @@ GLuint HBHelper::loadProgram(const char *vertShaderSrc, const char *fragShaderSr
 }
 
 GLuint HBHelper::loadProgramByPath(const char *vertShaderPath, const char *fragShaderPath) {
-    int vLen = 0;
-    int fLen = 0;
-    int vFd = 0;
-    int fFd = 0;
+    auto vLen = 0;
+    auto fLen = 0;
+    auto vFd = 0;
+    auto fFd = 0;
     auto vertShaderSrc = mapFile(vertShaderPath, vLen, vFd);
     auto fragShaderSrc = mapFile(fragShaderPath, fLen, fFd);
     int result = loadProgram(vertShaderSrc, fragShaderSrc);
@@ -111,7 +111,7 @@ GLuint HBHelper::loadTextureFromFile(const std::string &fileName) {
 
 GLuint HBHelper::loadShader(GLenum type, const char *shaderSrc) {
     // Create the shader object
-    GLuint shader = glCreateShader(type);
+    auto shader = glCreateShader(type);
 
     if (shader == 0) return 0;
 
@@ -122,11 +122,11 @@ GLuint HBHelper::loadShader(GLenum type, const char *shaderSrc) {
     glCompileShader(shader);
 
     // Check the compile status
-    GLint compiled = 0;
+    auto compiled = static_cast<GLint>(0);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
 
     if (!compiled) {
-        GLint infoLen = 0;
+        auto infoLen = static_cast<GLint>(0);
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
 
         if (infoLen > 1) {
