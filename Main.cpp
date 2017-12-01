@@ -14,7 +14,7 @@ typedef struct {
 
 int main() {
     honeybee::HBEgl egl;
-    egl.glContext()->userData = malloc(sizeof(UserData));
+    egl.glContext()->userData = new UserData;
     egl.createWindow("HoneyBee", 800, 700, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
     egl.registerInitFunc([](honeybee::HBContext *context) {
         glEnable(GL_DEPTH_TEST);
@@ -53,6 +53,7 @@ int main() {
         if (userData->text) {
             delete userData->text;
         }
+        delete userData;
     });
     return egl.exec();
 }

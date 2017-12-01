@@ -97,10 +97,6 @@ int HBEgl::exec() {
     if (mContext->shutdownFunc) {
         mContext->shutdownFunc(mContext);
     }
-
-    if (mContext->userData) {
-        free(mContext->userData);
-    }
     return 0;
 }
 
