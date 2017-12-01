@@ -12,7 +12,12 @@
 
 HONEYBEE_BEGIN_NAMESPACE
 template<typename T, typename... Ts>
-std::unique_ptr<T> make_unique(Ts&&... params) {
+std::unique_ptr<T> inline make_unique(Ts&&... params) {
     return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+}
+
+template<typename T> inline void destroy(T *ptr) {
+    delete ptr;
+    ptr = nullptr;
 }
 HONEYBEE_END_NAMESPACE

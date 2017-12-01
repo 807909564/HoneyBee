@@ -22,7 +22,7 @@ int main() {
 
         glViewport (0, 0, context->width, context->height);
 
-        UserData *userData = (UserData *)(context->userData);
+        UserData *userData = static_cast<UserData *>(context->userData);
         userData->model = new honeybee::HBModel("Model/x5/x5.obj", context);
         userData->text = new honeybee::HBText(24, context);
         userData->text->setPosition(10, 670);
@@ -32,28 +32,24 @@ int main() {
     });
     egl.registerDrawFunc([](honeybee::HBContext *context) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        UserData *userData = (UserData *)(context->userData);
+        auto userData = static_cast<UserData *>(context->userData);
         auto model = userData->model;
         if (model) model->draw();
         auto text = userData->text;
         if (text) text->draw();
     });
     egl.registerUpdateFunc([] (honeybee::HBContext *context, float deltaTime) {
-        UserData *userData = (UserData *)(context->userData);
+        auto userData = (UserData *)(context->userData);
         if (userData->model) userData->model->update(deltaTime);
         if (userData->text) {
             userData->text->setText("FPS:" + std::to_string(std::lround(1.0 / deltaTime)));
         }
     });
     egl.registerShutdownFunc([](honeybee::HBContext *context) {
-        UserData *userData = (UserData *)(context->userData);
-        if (userData->model) {
-            delete userData->model;
-        }
-        if (userData->text) {
-            delete userData->text;
-        }
-        delete userData;
+        auto userData = static_cast<UserData *>(context->userData);
+        honeybee::destroy(userData->model);
+        honeybee::destroy(userData->text);
+        honeybee::destroy(userData);
     });
     return egl.exec();
 }
