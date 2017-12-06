@@ -9,6 +9,7 @@ void signalHandlerWrapper(int signal) {
 }
 
 EglAdapter::EglAdapter(HBContext *context) : mContext(context) {
+    setenv("FB_MULTIBUFFER", "2", 0);
     signal(SIGINT, &signalHandlerWrapper);
     signal(SIGTERM, &signalHandlerWrapper);
 }

@@ -14,13 +14,13 @@ typedef struct {
 int main() {
     honeybee::HBEgl egl;
     egl.glContext()->userData = new UserData;
-    egl.createWindow("HoneyBee", 800, 700, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
+    egl.createWindow("HoneyBee", 1440, 540, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
     egl.registerInitFunc([](honeybee::HBContext *context) {
         glEnable(GL_DEPTH_TEST);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glViewport (0, 0, context->width, context->height);
         auto userData = static_cast<UserData *>(context->userData);
-        userData->model = new honeybee::HBModel("Model/x5/x5.obj", context);
+        userData->model = new honeybee::HBModel("/tmp/Model/x5/x5.obj", context);
         return true;
     });
     egl.registerDrawFunc([](honeybee::HBContext *context) {
