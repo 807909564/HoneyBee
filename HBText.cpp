@@ -6,7 +6,7 @@
 HONEYBEE_BEGIN_NAMESPACE
 
 HBText::HBText(int fontSize, const HBContext *context) {
-    mProgramObject = honeybee::HBHelper::loadProgramByPath("Shader/textVertexShader.vs", "Shader/textFragShader.fs");
+    mProgramObject = honeybee::HBHelper::loadProgramByPath("/tmp/Shader/textVertexShader.vs", "/tmp/Shader/textFragShader.fs");
 
     FT_Library ft;
     if (FT_Init_FreeType(&ft)) {

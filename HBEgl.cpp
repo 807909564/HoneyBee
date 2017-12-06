@@ -51,23 +51,35 @@ GLboolean HBEgl::createWindow(const char *title, GLint width, GLint height, GLui
     EGLConfig config;
     EGLint numConfigs = 0;
     if (!eglChooseConfig(mContext->eglDisplay, attribList, &config, 1, &numConfigs)) return GL_FALSE;
-    if (numConfigs < 1) return GL_FALSE;
+    if (numConfigs < 1) {
+        std::cout << "Choose config" << std::endl;
+        return GL_FALSE;
+    }
 
     // Create a surface
     mContext->eglSurface = eglCreateWindowSurface(mContext->eglDisplay, config,
                                                   mContext->eglNativeWindow, nullptr);
-    if (mContext->eglSurface == EGL_NO_SURFACE) return GL_FALSE;
+    if (mContext->eglSurface == EGL_NO_SURFACE) {
+        std::cout << "Create a surface" << std::endl;
+        return GL_FALSE;
+    }
     // Create a GL context
     EGLint contextAttribs[] = { EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE };
     mContext->eglContext = eglCreateContext(mContext->eglDisplay, config,
                                             EGL_NO_CONTEXT, contextAttribs);
 
-    if (mContext->eglContext == EGL_NO_CONTEXT) return GL_FALSE;
+    if (mContext->eglContext == EGL_NO_CONTEXT) {
+        std::cout << "Create a GL context" << std::endl;
+        return GL_FALSE;
+    }
 
     // Make the context current
     if (!eglMakeCurrent(mContext->eglDisplay, mContext->eglSurface,
-                        mContext->eglSurface, mContext->eglContext)) return GL_FALSE;
-
+                        mContext->eglSurface, mContext->eglContext)) {
+        std::cout << "Make the context current" << std::endl;
+        return GL_FALSE;
+    }
+    std::cout << "GL_TRUE" << std::endl;
     return GL_TRUE;
 }
 

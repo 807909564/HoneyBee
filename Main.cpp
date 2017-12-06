@@ -42,6 +42,7 @@ int main() {
         auto userData = (UserData *)(context->userData);
         if (userData->model) userData->model->update(deltaTime);
         if (userData->text) {
+            std::perror(std::to_string(std::lround(1.0 / deltaTime)));
             userData->text->setText("FPS:" + std::to_string(std::lround(1.0 / deltaTime)));
         }
     });
