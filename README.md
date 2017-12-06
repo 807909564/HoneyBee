@@ -10,7 +10,9 @@ We are using Assimp to load 3D models for now, but in the long run, we'll remove
 Cmake is used as the automake tool. So it is pretty easy to build the project.
 
 Download glm from https://github.com/g-truc/glm/releases/tag/0.9.8.5 into ThirdParty.
+
 Download stb_image.h from https://github.com/nothings/stb/blob/master/stb_image.h into ThirdParty.
+
 Install assimp and freetype, then just do as follows.
 ```
 cmake .
