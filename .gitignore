@@ -7,8 +7,6 @@ cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
-stb_image.h
 CMakeLists.txt.user
 *.pro.user
 dna.txt
-glm/
