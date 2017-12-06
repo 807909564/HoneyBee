@@ -15,7 +15,8 @@ EglAdapter::EglAdapter(HBContext *context) : mContext(context) {
 
 EGLBoolean EglAdapter::createWindow(const char *title) {
     UNUSED(title);
-    mContext->eglNativeWindow = (EGLNativeWindowType)fbCreateWindow((EGLNativeDisplayType)fbGetDisplayByIndex(0), 0, 0, 0, 0);
+    mContext->eglNativeDisplay = (EGLNativeDisplayType)fbGetDisplayByIndex(0);
+    mContext->eglNativeWindow = (EGLNativeWindowType)fbCreateWindow(mContext->eglNativeDisplay, 0, 0, 0, 0);
     return GL_TRUE;
 }
 
