@@ -21,7 +21,7 @@ void HBMesh::draw(GLuint programObject) {
     glUseProgram(programObject);
     unsigned int diffuseNr{1};
     unsigned int specularNr{1};
-    for (auto i = 0; i < mTextures.size(); ++i) {
+    for (auto i = 0u; i < mTextures.size(); ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
         std::string number;
         std::string name = mTextures[i].sType;

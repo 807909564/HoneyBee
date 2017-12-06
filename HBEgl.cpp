@@ -4,7 +4,6 @@ HONEYBEE_BEGIN_NAMESPACE
 
 HBEgl::HBEgl() {
     mContext = new HBContext;
-    memset(mContext, 0, sizeof(mContext));
     mEglAdapter = make_unique<EglAdapter>(mContext);
 }
 

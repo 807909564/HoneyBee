@@ -20,4 +20,7 @@ template<typename T> inline void destroy(T *ptr) {
     delete ptr;
     ptr = nullptr;
 }
+
+#define UNUSED(expr) do { (void)(expr); } while (0)
+
 HONEYBEE_END_NAMESPACE

@@ -55,12 +55,12 @@ void HBModel::loadModel(const std::string &path) {
 }
 
 void HBModel::processNode(aiNode *node, const aiScene *scene) {
-    for (auto i = 0; i < node->mNumMeshes; ++i) {
+    for (auto i = 0u; i < node->mNumMeshes; ++i) {
         auto mesh = scene->mMeshes[node->mMeshes[i]];
         mMeshes.push_back(std::move(processMesh(mesh, scene)));
     }
 
-    for (auto i = 0; i < node->mNumChildren; ++i) {
+    for (auto i = 0u; i < node->mNumChildren; ++i) {
         processNode(node->mChildren[i], scene);
     }
 }
@@ -70,7 +70,7 @@ HBMesh HBModel::processMesh(aiMesh *mesh, const aiScene *scene) {
     std::vector<unsigned int> indices;
     std::vector<HBTexture> textures;
 
-    for (auto i = 0; i < mesh->mNumVertices && mesh->mNormals; ++i) {
+    for (auto i = 0u; i < mesh->mNumVertices && mesh->mNormals; ++i) {
         HBVertex vertex;
         glm::vec3 v3;
         v3.x = mesh->mVertices[i].x;
@@ -94,26 +94,24 @@ HBMesh HBModel::processMesh(aiMesh *mesh, const aiScene *scene) {
         vertices.push_back(std::move(vertex));
     }
 
-    for (auto i = 0; i < mesh->mNumFaces; ++i) {
+    for (auto i = 0u; i < mesh->mNumFaces; ++i) {
         auto face = mesh->mFaces[i];
-        for (auto j = 0; j < face.mNumIndices; ++j) {
+        for (auto j = 0u; j < face.mNumIndices; ++j) {
             indices.push_back(face.mIndices[j]);
         }
     }
 
     HBMeshColor meshColor;
-    if (mesh->mMaterialIndex >= 0) {
-        auto material = scene->mMaterials[mesh->mMaterialIndex];
-        auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-        textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+    auto material = scene->mMaterials[mesh->mMaterialIndex];
+    auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+    textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-        auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+    auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+    textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-        meshColor.sAmbientColor = loadMaterialColor(material, AI_MATKEY_COLOR_AMBIENT);
-        meshColor.sDiffuseColor = loadMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE);
-        meshColor.sSpecularColor = loadMaterialColor(material, AI_MATKEY_COLOR_SPECULAR);
-    }
+    meshColor.sAmbientColor = loadMaterialColor(material, AI_MATKEY_COLOR_AMBIENT);
+    meshColor.sDiffuseColor = loadMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE);
+    meshColor.sSpecularColor = loadMaterialColor(material, AI_MATKEY_COLOR_SPECULAR);
 
     return HBMesh(vertices, indices, textures, meshColor, mesh->mName.C_Str());
 }
@@ -122,7 +120,7 @@ std::vector<HBTexture> HBModel::loadMaterialTextures(aiMaterial *mat,
                                                      aiTextureType type,
                                                      const std::string &typeName) {
     std::vector<HBTexture> textures;
-    for (auto i = 0; i < mat->GetTextureCount(type); ++i) {
+    for (auto i = 0u; i < mat->GetTextureCount(type); ++i) {
         aiString str;
         mat->GetTexture(type, i, &str);
 
@@ -157,6 +155,8 @@ glm::vec4 HBModel::loadMaterialColor(aiMaterial *mat,
     if (AI_SUCCESS == aiGetMaterialColor(mat, pKey, type, index, &color)) {
         return glm::vec4(color.r, color.g, color.b, color.a);
     }
+
+    return glm::vec4(0.0, 0.0, 0.0, 1.0);
 }
 
 HONEYBEE_END_NAMESPACE

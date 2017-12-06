@@ -1,14 +1,22 @@
+#include <sys/time.h>
 #include "EglAdapter.hpp"
 
 HONEYBEE_BEGIN_NAMESPACE
 
+void signalHandlerWrapper(int signal) {
+    UNUSED(signal);
+    exit(0);
+}
+
 EglAdapter::EglAdapter(HBContext *context) : mContext(context) {
-    signal(SIGINT, &signal_handler);
-    signal(SIGTERM, &signal_handler);
+    signal(SIGINT, &signalHandlerWrapper);
+    signal(SIGTERM, &signalHandlerWrapper);
 }
 
 EGLBoolean EglAdapter::createWindow(const char *title) {
+    UNUSED(title);
     mContext->eglNativeWindow = (EGLNativeWindowType)fbCreateWindow((EGLNativeDisplayType)fbGetDisplayByIndex(0), 0, 0, 0, 0);
+    return GL_TRUE;
 }
 
 void EglAdapter::windowLoop() {
@@ -18,7 +26,7 @@ void EglAdapter::windowLoop() {
 
     gettimeofday(&t1, &tz);
 
-    while (!mDone) {
+    while (true) {
         gettimeofday(&t2, &tz);
         deltatime = (float)(t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec) * 1e-6);
         t1 = t2;
@@ -30,10 +38,6 @@ void EglAdapter::windowLoop() {
 
         eglSwapBuffers(mContext->eglDisplay, mContext->eglSurface);
     }
-}
-
-void EglAdapter::signalHandler(int signal) {
-    mDone = 1;
 }
 
 HONEYBEE_END_NAMESPACE

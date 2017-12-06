@@ -14,14 +14,10 @@
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 
-#include "../HBGlobal.hpp"
-#include "../HBContext.hpp"
+#include "../../HBGlobal.hpp"
+#include "../../HBContext.hpp"
 
 HONEYBEE_BEGIN_NAMESPACE
-
-// X11 related local variables
-static Display *x_display = nullptr;
-static Atom s_wmDeleteMessage;
 
 class EglAdapter {
 public:
@@ -30,10 +26,7 @@ public:
     void windowLoop();
 
 private:
-    void signalHandler(int signal);
-private:
-    HBContext *mContext;
-    bool mDone = false;
+    HBContext *mContext{nullptr};
 };
 
 HONEYBEE_END_NAMESPACE
