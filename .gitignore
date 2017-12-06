@@ -10,3 +10,4 @@ CTestTestfile.cmake
 CMakeLists.txt.user
 *.pro.user
 dna.txt
+ThirdParty
