@@ -32,6 +32,7 @@ int main() {
     egl.registerUpdateFunc([] (honeybee::HBContext *context, float deltaTime) {
         auto userData = (UserData *)(context->userData);
         if (userData->model) userData->model->update(deltaTime);
+        std::cout << std::to_string(std::lround(1.0 / deltaTime)) << std::endl;
     });
     egl.registerShutdownFunc([](honeybee::HBContext *context) {
         auto userData = static_cast<UserData *>(context->userData);

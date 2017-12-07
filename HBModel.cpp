@@ -6,14 +6,13 @@
 HONEYBEE_BEGIN_NAMESPACE
 
 HBModel::HBModel(const std::string &path, const HBContext *context) {
-    mProgramObject = honeybee::HBHelper::loadProgramByPath("Shader/vertexShader.vs", "Shader/fragShader.fs");
+    mProgramObject = honeybee::HBHelper::loadProgramByPath("/tmp/Shader/vertexShader.vs", "/tmp/Shader/fragShader.fs");
     glm::mat4 projection;
     projection = glm::perspective(glm::radians(60.0f), (float)context->width / context->height, 0.1f, 800.0f);
 
     glUseProgram(mProgramObject);
     glm::mat4 model;
     model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(1.2f, 1.2f, 1.2f));
     glUniformMatrix4fv(glGetUniformLocation(mProgramObject, "model"), 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(glGetUniformLocation(mProgramObject, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 

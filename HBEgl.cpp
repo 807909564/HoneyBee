@@ -67,7 +67,6 @@ GLboolean HBEgl::createWindow(const char *title, GLint width, GLint height, GLui
     // Make the context current
     if (!eglMakeCurrent(mContext->eglDisplay, mContext->eglSurface,
                         mContext->eglSurface, mContext->eglContext)) return GL_FALSE;
-
     return GL_TRUE;
 }
 
