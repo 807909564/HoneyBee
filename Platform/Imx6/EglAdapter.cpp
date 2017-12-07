@@ -9,7 +9,7 @@ void signalHandlerWrapper(int signal) {
 }
 
 EglAdapter::EglAdapter(HBContext *context) : mContext(context) {
-    setenv("FB_MULTIBUFFER", "2", 1);
+    setenv("FB_MULTI_BUFFER", "3", 1);
     signal(SIGINT, &signalHandlerWrapper);
     signal(SIGTERM, &signalHandlerWrapper);
 }
@@ -37,9 +37,7 @@ void EglAdapter::windowLoop() {
             mContext->updateFunc(mContext, deltatime);
         if (mContext->drawFunc != nullptr)
             mContext->drawFunc(mContext);
-        if (!eglSwapBuffers(mContext->eglDisplay, mContext->eglSurface)) {
-            std::cout << "EglAdapter: eglSwapBuffers failed: " << eglGetError() << std::endl;;
-        }
+        eglSwapBuffers(mContext->eglDisplay, mContext->eglSurface);
     }
 }
 
