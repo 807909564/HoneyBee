@@ -6,7 +6,7 @@
 HONEYBEE_BEGIN_NAMESPACE
 
 HBModel::HBModel(const std::string &path, const HBContext *context) {
-    mProgramObject = honeybee::HBHelper::loadProgramByPath("/tmp/Shader/vertexShader.vs", "/tmp/Shader/fragShader.fs");
+    mProgramObject = honeybee::HBHelper::loadProgramByPath("Shader/vertexShader.vs", "Shader/fragShader.fs");
     glm::mat4 projection;
     projection = glm::perspective(glm::radians(60.0f), (float)context->width / context->height, 0.1f, 800.0f);
 
